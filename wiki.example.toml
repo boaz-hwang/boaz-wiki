@@ -1,0 +1,25 @@
+[wiki]
+title = "My Knowledge Wiki"
+path = "docs/wiki"
+reviewer = "human:owner"
+language = "ko"
+
+[sources.documents]
+kind = "documents"
+path = "examples/raw"
+include = ["**/*.md", "**/*.mdx"]
+exclude = ["**/.env*", "**/node_modules/**", "**/.git/**"]
+
+# Paths are relative to this configuration file, or absolute / ~/ paths.
+# Enable only the sources in scope. include/exclude guide the agent's inventory.
+# [sources.claude-sessions]
+# kind = "claude"
+# path = "~/.claude/projects/YOUR-PROJECT"
+# project = "/path/to/your/project"
+# [sources.codex-sessions]
+# kind = "codex"
+# path = "~/.codex/sessions"
+# project = "/path/to/your/project"
+# [sources.Clippings]
+# kind = "clippings"
+# path = "/path/to/vault/Clippings"

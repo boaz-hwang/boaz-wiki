@@ -1,0 +1,18 @@
+---
+type: concept
+title: 예제 개념
+description: 이 페이지가 설명하는 내용을 한 문장으로 적는다.
+tags: [example]
+sources: []
+generated: { by: agent/model, at: "2026-01-01T00:00:00Z" }
+verified: []
+status: draft
+contested: false
+contradictions: []
+supersedes: []
+related: []
+---
+
+# 예제 개념
+
+사실에는 원문 줄 인용을, 해석에는 근거 페이지 링크를 붙인다.

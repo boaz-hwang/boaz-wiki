@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+wiki.toml
+/docs/wiki/
+/.claude/skills/
+/.agents/skills/
+.env
+.env.*
