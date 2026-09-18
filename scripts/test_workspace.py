@@ -19,7 +19,7 @@ class WorkspaceTests(unittest.TestCase):
         (self.root/'sessions').mkdir()
         (self.root/'raw/policy.md').write_text('Return within 14 days.\n', encoding='utf-8')
         self.config = self.root/'wiki.toml'
-        self.config.write_text('[wiki]\npath="knowledge"\ntitle="Team Wiki 한글"\nreviewer="human:alice"\n[sources.notes]\nkind="documents"\npath="raw"\n[sources.claude-sessions]\nkind="claude"\npath="sessions"\n', encoding='utf-8')
+        self.config.write_text('[wiki]\npath="knowledge"\ntitle="Team Wiki 한글"\nreviewer="human:alice"\n[sources.notes]\nkind="documents"\npath="raw"\n[sources.claude-sessions]\nkind="claude"\npath="sessions"\n', encoding='utf-8-sig')
         self.env = {k:v for k,v in os.environ.items() if not k.startswith('WIKI_')}
         self.env.update(WIKI_CONFIG=str(self.config), PYTHONDONTWRITEBYTECODE='1')
 

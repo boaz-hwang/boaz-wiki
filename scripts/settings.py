@@ -11,7 +11,7 @@ TOOL_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = Path(os.environ.get('WIKI_CONFIG', TOOL_ROOT / 'wiki.toml')).expanduser().resolve()
 if 'WIKI_CONFIG' in os.environ and not CONFIG_PATH.is_file():
     raise ValueError(f'Configuration not found: {CONFIG_PATH}')
-CONFIG = tomllib.loads(CONFIG_PATH.read_text(encoding='utf-8')) if CONFIG_PATH.exists() else {}
+CONFIG = tomllib.loads(CONFIG_PATH.read_text(encoding='utf-8-sig')) if CONFIG_PATH.exists() else {}
 WORKSPACE = CONFIG_PATH.parent
 
 def path(value):

@@ -24,7 +24,7 @@ def install_skill(source, dest):
     if dest.exists():
         marker = dest / MARKER
         try:
-            previous = json.loads(marker.read_text(encoding='utf-8'))
+            previous = json.loads(marker.read_text(encoding='utf-8-sig'))
         except (OSError, ValueError):
             previous = None
         if previous is None or snapshot(dest) != previous:

@@ -58,14 +58,14 @@ def main():
     # Codex stores the same visible messages in event_msg and response_item.
     # Prefer response_item when present; older event-only logs still work.
     has_messages = False
-    with path.open(encoding="utf-8") as stream:
+    with path.open(encoding="utf-8-sig") as stream:
         for line in stream:
             record = json.loads(line)
             p = record.get("payload", {})
             if record.get("type") == "response_item" and p.get("type") == "message" and p.get("role") in ("user", "assistant"):
                 has_messages = True
                 break
-    with path.open(encoding="utf-8") as stream:
+    with path.open(encoding="utf-8-sig") as stream:
         for number, line in enumerate(stream, 1):
             if number < args.start:
                 continue

@@ -23,7 +23,7 @@ ORDER = [
 def main() -> int:
     groups: dict[str, list[tuple[str, str, str, dict]]] = defaultdict(list)
     for p in iter_pages():
-        fm, _ = parse_frontmatter(p.read_text(encoding="utf-8"))
+        fm, _ = parse_frontmatter(p.read_text(encoding="utf-8-sig"))
         if not fm:
             continue
         groups[str(fm.get("type", "?"))].append((str(fm.get("title", p.stem)), slug_of(p), str(fm.get("description", "")), fm))

@@ -15,3 +15,24 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: python -B -m unittest discover -s scripts -p 'test_*.py'
+      - name: Windows PowerShell workspace smoke test
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          $workspace = Join-Path $env:RUNNER_TEMP ('wiki-' + [guid]::NewGuid())
+          New-Item -ItemType Directory -Path $workspace | Out-Null
+          $env:WIKI_CONFIG = Join-Path $workspace 'wiki.toml'
+          try {
+            # Windows PowerShell 5.1 writes a UTF-8 BOM with this option.
+            @('[wiki]', 'path = "docs/wiki"', 'title = "PowerShell Wiki"') |
+              Set-Content -Path $env:WIKI_CONFIG -Encoding UTF8
+            python -B scripts/setup.py
+            if ($LASTEXITCODE -ne 0) { throw 'setup failed' }
+            python -B scripts/lint.py
+            if ($LASTEXITCODE -ne 0) { throw 'lint failed' }
+            python -B scripts/review.py status
+            if ($LASTEXITCODE -ne 0) { throw 'status failed' }
+          } finally {
+            Remove-Item Env:WIKI_CONFIG
+            Remove-Item -LiteralPath $workspace -Recurse -Force
+          }

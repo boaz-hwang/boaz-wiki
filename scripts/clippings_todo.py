@@ -26,7 +26,7 @@ SKIP_RE = re.compile(r"^## \[\d{4}-\d{2}-\d{2}\] clip-skip \| ([^|\n]+?)\s*(?:\|
 def processed() -> set[str]:
     done = set()
     for p in iter_pages():
-        fm, _ = parse_frontmatter(p.read_text(encoding="utf-8"))
+        fm, _ = parse_frontmatter(p.read_text(encoding="utf-8-sig"))
         for s in (fm or {}).get("sources", []) or []:
             r = s.get("resource") if isinstance(s, dict) else None
             if isinstance(r, str) and r.startswith("/Clippings/"):
@@ -38,14 +38,14 @@ def skipped() -> set[str]:
     log = WIKI_ROOT / "log.md"
     if not log.exists():
         return set()
-    return {m.group(1).strip() for m in SKIP_RE.finditer(log.read_text(encoding="utf-8"))}
+    return {m.group(1).strip() for m in SKIP_RE.finditer(log.read_text(encoding="utf-8-sig"))}
 
 
 def last_sweep_days() -> int | None:
     log = WIKI_ROOT / "log.md"
     if not log.exists():
         return None
-    dates = [datetime.strptime(m.group(1), "%Y-%m-%d").date() for m in SWEEP_RE.finditer(log.read_text(encoding="utf-8"))]
+    dates = [datetime.strptime(m.group(1), "%Y-%m-%d").date() for m in SWEEP_RE.finditer(log.read_text(encoding="utf-8-sig"))]
     return (date.today() - max(dates)).days if dates else None
 
 

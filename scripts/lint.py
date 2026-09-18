@@ -39,7 +39,7 @@ def main() -> int:
 
     for p in pages:
         rel = p.relative_to(WIKI_ROOT).as_posix()
-        text = p.read_text(encoding="utf-8")
+        text = p.read_text(encoding="utf-8-sig")
         fm, body = parse_frontmatter(text)
         if fm is None:
             errors.append(f"{rel}: frontmatter 없음")
@@ -118,7 +118,7 @@ def main() -> int:
 
     idx = WIKI_ROOT / "index.md"
     if idx.exists():
-        listed = {resolve(t) for t in WIKILINK_RE.findall(idx.read_text(encoding="utf-8"))}
+        listed = {resolve(t) for t in WIKILINK_RE.findall(idx.read_text(encoding="utf-8-sig"))}
         missing = sorted({slug_of(p) for p in pages} - listed)
         if missing:
             warnings.append(f"index.md 에 없는 페이지 {len(missing)}개 (build_index.py 실행): {', '.join(missing[:5])}…")

@@ -19,7 +19,7 @@ def main():
     WIKI_ROOT.mkdir(parents=True, exist_ok=True)
     for category in ('concepts','entities','sources','overviews','questions','research','reviews'):
         (WIKI_ROOT / category).mkdir(exist_ok=True)
-    for name, text in [('SCHEMA.md', (ROOT / 'SCHEMA.md').read_text(encoding='utf-8')), ('log.md', '# Wiki log\n')]:
+    for name, text in [('SCHEMA.md', (ROOT / 'SCHEMA.md').read_text(encoding='utf-8-sig')), ('log.md', '# Wiki log\n')]:
         p = WIKI_ROOT / name
         if not p.exists(): p.write_text(text, encoding='utf-8')
     if not (WIKI_ROOT / 'index.md').exists():
@@ -33,7 +33,7 @@ def main():
         pointer = f"\n<!-- boaz-wiki -->\nWiki rules: {WIKI_ROOT / 'SCHEMA.md'}. Read the index first.\nToolkit and skills: {ROOT}. Use WIKI_CONFIG={config} with its scripts.\n<!-- /boaz-wiki -->\n"
         for name in ('AGENTS.md', 'CLAUDE.md'):
             target = WORKSPACE / name
-            old = target.read_text(encoding='utf-8') if target.exists() else ''
+            old = target.read_text(encoding='utf-8-sig') if target.exists() else ''
             pattern = r'\n?<!-- (?:llm|boaz)-wiki -->.*?<!-- /(?:llm|boaz)-wiki -->\n?'
             if re.search(pattern, old, flags=re.S):
                 updated = re.sub(pattern, lambda _: pointer, old, count=1, flags=re.S)
