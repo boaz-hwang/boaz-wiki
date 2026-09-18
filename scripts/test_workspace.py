@@ -54,12 +54,23 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(config,self.config.read_bytes())
         instructions=(self.root/'AGENTS.md').read_text()
         self.assertTrue(instructions.startswith('Existing project instructions'))
-        self.assertEqual(instructions.count('<!-- llm-wiki -->'),1)
+        self.assertEqual(instructions.count('<!-- boaz-wiki -->'),1)
         for provider in ['.claude','.agents']:
             self.assertEqual(len(list((self.root/provider/'skills').iterdir())),4)
             self.assertEqual((self.root/provider/'skills/wiki-review').resolve(),TOOL/'skills/wiki-review')
         self.assertIn('Team Wiki',(self.root/'knowledge/index.md').read_text())
         self.assertNotIn('Clippings',self.run_tool('lint.py').stdout)
+
+    def test_setup_refreshes_previous_toolkit_pointer_after_rename(self):
+        self.run_tool('setup.py')
+        target = self.root/'AGENTS.md'
+        old = target.read_text().replace('boaz-wiki -->', 'llm' + '-wiki -->').replace(str(TOOL), '/old/toolkit/path')
+        target.write_text(old)
+        self.run_tool('setup.py')
+        updated = target.read_text()
+        self.assertEqual(updated.count('<!-- boaz-wiki -->'), 1)
+        self.assertNotIn('/old/toolkit/path', updated)
+        self.assertIn(str(TOOL), updated)
 
     def test_configured_alias_reviewer_and_full_public_workflow(self):
         revision=self.prepare()

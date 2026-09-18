@@ -1,6 +1,7 @@
 """Prepare a local wiki workspace without replacing existing files."""
 from pathlib import Path
 import os
+import re
 import subprocess
 import sys
 
@@ -33,12 +34,17 @@ def main():
                 continue
             dest.symlink_to(os.path.relpath(skill, dest.parent), target_is_directory=True)
     if WORKSPACE != ROOT:
-        pointer = f"\n<!-- llm-wiki -->\nWiki rules: {WIKI_ROOT / 'SCHEMA.md'}. Read the index first.\nToolkit and skills: {ROOT}. Use WIKI_CONFIG={config} with its scripts.\n<!-- /llm-wiki -->\n"
+        pointer = f"\n<!-- boaz-wiki -->\nWiki rules: {WIKI_ROOT / 'SCHEMA.md'}. Read the index first.\nToolkit and skills: {ROOT}. Use WIKI_CONFIG={config} with its scripts.\n<!-- /boaz-wiki -->\n"
         for name in ('AGENTS.md', 'CLAUDE.md'):
             target = WORKSPACE / name
             old = target.read_text(encoding='utf-8') if target.exists() else ''
-            if '<!-- llm-wiki -->' not in old:
-                target.write_text(old + pointer, encoding='utf-8')
+            pattern = r'\n?<!-- (?:llm|boaz)-wiki -->.*?<!-- /(?:llm|boaz)-wiki -->\n?'
+            if re.search(pattern, old, flags=re.S):
+                updated = re.sub(pattern, lambda _: pointer, old, count=1, flags=re.S)
+            else:
+                updated = old + pointer
+            if updated != old:
+                target.write_text(updated, encoding='utf-8')
     print(f'Workspace ready: {WIKI_ROOT}\nConfigure sources in {config}; follow the README starter prompt.')
 
 if __name__ == '__main__':

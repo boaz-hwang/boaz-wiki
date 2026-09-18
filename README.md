@@ -1,4 +1,4 @@
-# LLM Wiki
+# BOAZ Wiki
 
 내 문서와 AI 작업 기록을, 출처를 따라 확인하고 계속 갱신할 수 있는 지식 위키로 만듭니다.
 
@@ -11,8 +11,8 @@ Claude Code나 Codex가 자료를 읽고 연결된 Markdown을 작성합니다. 
 Python 3.11 이상, Git, 로컬 파일을 읽을 수 있는 Claude Code 또는 Codex가 필요합니다. Python 외 별도 패키지는 필요 없습니다. 실행 도구는 macOS·Linux를 대상으로 하며 Windows에서는 WSL을 사용합니다. Obsidian은 선택입니다.
 
 ```bash
-git clone https://github.com/boaz-hwang/llm-wiki.git
-cd llm-wiki
+git clone https://github.com/boaz-hwang/boaz-wiki.git
+cd boaz-wiki
 ```
 
 이 폴더를 코딩 에이전트에서 열고, 아래 프롬프트의 대괄호를 바꿔 붙여넣으세요. 문서는 다른 폴더에 있어도 됩니다. 세션·메모리·Git 이력이 없으면 `없음`이라고 적으면 됩니다.

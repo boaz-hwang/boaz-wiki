@@ -1,4 +1,4 @@
-# LLM Wiki
+# BOAZ Wiki
 
 For first creation, follow the starter prompt in README.md. Read wiki.toml, the configured wiki's SCHEMA.md (root SCHEMA.md is the setup template), then its index and review status. Resolve paths from the configuration directory; run tools from this repository root. WIKI_CONFIG selects a different workspace config.
 
