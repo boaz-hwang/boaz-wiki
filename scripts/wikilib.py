@@ -100,6 +100,7 @@ def _inline(s: str):
 
 
 def parse_frontmatter(text: str) -> tuple[dict | None, str]:
+    text = text.replace("\r\n", "\n")
     m = FM_RE.match(text)
     if not m:
         return None, text

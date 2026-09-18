@@ -8,7 +8,7 @@ Claude Code나 Codex가 자료를 읽고 연결된 Markdown을 작성합니다. 
 
 ## 시작하기
 
-Python 3.11 이상, Git, 로컬 파일을 읽을 수 있는 Claude Code 또는 Codex가 필요합니다. Python 외 별도 패키지는 필요 없습니다. 실행 도구는 macOS·Linux를 대상으로 하며 Windows에서는 WSL을 사용합니다. Obsidian은 선택입니다.
+Python 3.11 이상, Git, 로컬 파일을 읽을 수 있는 Claude Code 또는 Codex가 필요합니다. Python 외 별도 패키지는 필요 없습니다. macOS·Linux·Windows PowerShell을 지원합니다. Obsidian은 선택입니다.
 
 ```bash
 git clone https://github.com/boaz-hwang/boaz-wiki.git
@@ -68,7 +68,7 @@ openwiki 와 open knowledge format 참고해줘.
 | 검토·수정·반영 | “변경안 1·2는 반영하고, 3은 이 표현으로 수정해줘.” | [wiki-review](skills/wiki-review/SKILL.md) |
 | 근거 있는 답변 | “위키 기준으로 이 결정을 왜 했는지 알려줘.” | [wiki-query](skills/wiki-query/SKILL.md) |
 
-setup은 프로젝트의 `.claude/skills/`와 `.agents/skills/`에 4개 스킬을 연결합니다. 기존 항목은 보존합니다. 현재 세션에서 바로 발견되지 않으면 해당 `skills/<이름>/SKILL.md`를 읽으라고 요청하거나 세션을 다시 여세요.
+setup은 프로젝트의 `.claude/skills/`와 `.agents/skills/`에 4개 스킬을 설치합니다. Windows에서는 파일을 복사하고, macOS·Linux에서는 심볼릭 링크로 연결합니다. setup을 다시 실행하면 수정하지 않은 관리 복사본을 갱신하고, 사용자가 편집한 스킬과 기존 항목은 보존합니다. 현재 세션에서 바로 발견되지 않으면 해당 `skills/<이름>/SKILL.md`를 읽으라고 요청하거나 세션을 다시 여세요.
 
 ## 무엇을 남기나
 
@@ -106,6 +106,27 @@ docs/wiki/
 Python 도구는 LLM을 호출하지 않습니다. 내용 작성과 의미 검토는 사용 중인 에이전트가 수행하며, 파일이 존재한다는 검사만으로 내용의 정확성이 증명되지는 않습니다. 현재 형식은 이 프로젝트의 Markdown 규칙이며 OKF 전체 호환성을 주장하지 않습니다.
 
 로컬 `wiki.toml`, 생성된 `docs/wiki/`는 공개 도구 저장소에 커밋하지 않도록 기본 제외합니다. 원본 세션은 도구 저장소 밖에서 연결하며 복사하지 않습니다. 지식을 Git으로 보관하려면 공개 범위를 먼저 정하고 별도 비공개 저장소에 저장하세요. 다른 컴퓨터에서 원문을 재검증하려면 원천 경로도 연결해야 합니다.
+
+### Windows PowerShell
+
+위의 clone 명령과 시작 프롬프트를 그대로 사용합니다. 에이전트와 Python은 Windows에 설치하세요. 직접 작업 공간을 준비하려면 저장소 폴더에서 실행합니다.
+
+```powershell
+python -B scripts/setup.py
+python -B scripts/lint.py
+python -B scripts/review.py status
+```
+
+문서의 `python3` 명령은 PowerShell에서 `python`으로 실행하세요. Python Launcher를 사용한다면 `py -3`도 가능합니다. 스킬 설치에는 관리자 권한이 필요하지 않습니다.
+
+다른 프로젝트에 위키를 만들 때는 설정 경로를 먼저 지정합니다.
+
+```powershell
+$env:WIKI_CONFIG = 'C:\Projects\My Project\wiki.toml'
+python -B scripts/setup.py
+```
+
+`wiki.toml`의 Windows 경로는 `path = 'C:\Users\me\Documents'`처럼 작은따옴표를 쓰거나 `C:/Users/me/Documents`로 적습니다. 설정·문서·JSON은 UTF-8로 저장하세요. Obsidian에서는 생성된 위키 폴더를 Vault로 열면 같은 파일을 함께 편집할 수 있습니다. 위키를 기존 Vault 아래에 만들 수도 있습니다.
 
 ## 예제와 검증
 

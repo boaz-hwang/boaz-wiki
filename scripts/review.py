@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
-import fcntl
+from platform_io import file_lock
 import hashlib
 import json
 import os
@@ -97,13 +97,12 @@ class Review:
     @contextmanager
     def lock(self):
         self.root.mkdir(parents=True, exist_ok=True)
-        with (self.root / ".lock").open("a") as stream:
-            fcntl.flock(stream, fcntl.LOCK_EX)
+        with file_lock(self.root / ".lock"):
             yield
 
     def events(self, batch, name):
         p = self.batch(batch) / name
-        return [json.loads(x) for x in p.read_text().splitlines()] if p.exists() else []
+        return [json.loads(x) for x in p.read_text(encoding='utf-8').splitlines()] if p.exists() else []
 
     def event(self, batch, name, value):
         p = self.batch(batch) / name
@@ -114,8 +113,8 @@ class Review:
         if not revisions:
             raise ValueError(f"검토안 없음: {topic}")
         p = revisions[-1]
-        m = json.loads((p / "manifest.json").read_text())
-        card = json.loads((p / "card.json").read_text())
+        m = json.loads((p / "manifest.json").read_text(encoding='utf-8'))
+        card = json.loads((p / "card.json").read_text(encoding='utf-8'))
         fingerprint = {"card": card, "files": m["files"], "dependencies": m["dependencies"]}
         if digest(fingerprint) != m["revision"]:
             raise ValueError(f"봉인된 검토안 변경: {topic}. prepare로 새 버전을 만드세요.")
@@ -133,7 +132,7 @@ class Review:
                 raise ValueError(f"변경 전 사본 변조: {topic}/{rel}")
         payloads = {rel: (read_bytes(safe(p / "before", rel + ".txt")), safe(p / "after", rel + ".txt").read_bytes())
                     for rel in m["files"]}
-        if (p / "review.md").read_text() != self.render(topic, m, card, payloads):
+        if (p / "review.md").read_bytes().decode("utf-8") != self.render(topic, m, card, payloads):
             raise ValueError(f"표시된 검토 문서 변경: {topic}")
         return p, m, card
 
@@ -291,7 +290,7 @@ class Review:
         m = CITATION_RE.fullmatch(ref)
         if not m or not m[1].startswith(("/codex-sessions/", "/claude-sessions/")) or not quote.strip():
             raise ValueError("실제 사용자 세션 줄 인용과 원문 quote 필요")
-        lines = self.resource(m[1]).read_text().splitlines()
+        lines = self.resource(m[1]).read_text(encoding='utf-8').splitlines()
         messages = []
         for line in lines[int(m[2])-1:int(m[3] or m[2])]:
             row = json.loads(line)
@@ -400,7 +399,7 @@ class Review:
             env = {**os.environ, **({"WIKI_CONFIG": str(CONFIG_PATH)} if CONFIG_PATH.exists() else {}), "WIKI_ROOT": str(root), "WIKI_REPO_ROOT": str(self.repo), "WIKI_RESOURCE_PREFIX": self.wiki.relative_to(self.repo).as_posix(), "PYTHONDONTWRITEBYTECODE": "1"}
             output = []
             for script in ("build_index.py", "lint.py"):
-                result = subprocess.run([sys.executable, "-B", str(SCRIPTS / script)], env=env, capture_output=True, text=True)
+                result = subprocess.run([sys.executable, "-B", str(SCRIPTS / script)], env=env, capture_output=True, text=True, encoding='utf-8')
                 output.append(result.stdout + result.stderr)
                 if result.returncode:
                     raise ValueError("검토안 검사 실패:\n" + "\n".join(output))
@@ -445,7 +444,7 @@ class Review:
             return output + "\n반영 완료: " + ", ".join(x[0] for x in selected)
 
     def _recover(self):
-        journal = json.loads(self.journal.read_text())
+        journal = json.loads(self.journal.read_text(encoding='utf-8'))
         for rel, versions in journal.items():
             current = read_bytes(safe(self.wiki, rel))
             candidates = [v.encode() if v is not None else None for v in versions.values()]
@@ -494,9 +493,9 @@ def main():
     args = parser.parse_args(); review = Review()
     try:
         if args.command == "prepare":
-            result = review.prepare(args.batch, args.topic, json.loads(args.card.read_text()), args.draft_dir)
+            result = review.prepare(args.batch, args.topic, json.loads(args.card.read_text(encoding='utf-8')), args.draft_dir)
         elif args.command == "decide":
-            result = review.decide(args.batch, args.topic, args.revision, args.decision, json.loads(args.response.read_text()))
+            result = review.decide(args.batch, args.topic, args.revision, args.decision, json.loads(args.response.read_text(encoding='utf-8')))
         elif args.command == "preview":
             result = review.preview(args.batch, args.topics)[3]
         elif args.command == "apply":

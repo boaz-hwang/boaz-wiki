@@ -23,7 +23,7 @@ class ReviewTests(unittest.TestCase):
         self.wiki.mkdir(parents=True)
         self.r = review.Review(self.wiki, self.repo)
         self.raw = self.repo / 'raw.md'
-        self.raw.write_text('actual evidence\nsecond line\n')
+        self.raw.write_text('actual evidence\nsecond line\n', encoding='utf-8')
         self.sessions = self.repo / 'sessions'
         self.sessions.mkdir()
         self.record({'type':'user','message':{'content':'검토한 범위로 승인합니다'}})
@@ -34,7 +34,7 @@ class ReviewTests(unittest.TestCase):
         self.put('concepts/a.md', page('a', 'old'))
 
     def record(self, row):
-        (self.sessions/'user.jsonl').write_text(json.dumps(row, ensure_ascii=False)+'\n')
+        (self.sessions/'user.jsonl').write_text(json.dumps(row, ensure_ascii=False)+'\n', encoding='utf-8')
 
     def put(self, rel, data):
         p = self.wiki/rel
@@ -59,7 +59,7 @@ class ReviewTests(unittest.TestCase):
     def test_prepare_isolated_and_excluded_from_readers(self):
         result = self.prepare()
         self.assertEqual((self.wiki/'concepts/a.md').read_bytes(),page('a','old'))
-        self.assertIn('-old',Path(result['review']).read_text())
+        self.assertIn('-old',Path(result['review']).read_text(encoding='utf-8'))
         self.put('reviews/bad.md',b'[[does-not-exist]]')
         with patch.object(wikilib,'WIKI_ROOT',self.wiki):
             self.assertEqual(list(wikilib.iter_pages()),[self.wiki/'concepts/a.md'])
@@ -82,8 +82,8 @@ class ReviewTests(unittest.TestCase):
         snapshot={p:p.read_bytes() for p in self.wiki.rglob('*') if p.is_file()}
         self.assertIn('이미 반영',self.r.apply('batch',['one']))
         self.assertEqual(snapshot,{p:p.read_bytes() for p in self.wiki.rglob('*') if p.is_file()})
-        self.assertIn('review-apply',(self.wiki/'log.md').read_text())
-        self.assertFalse(wikilib.parse_frontmatter((self.wiki/'concepts/a.md').read_text())[0]['verified'])
+        self.assertIn('review-apply',(self.wiki/'log.md').read_text(encoding='utf-8'))
+        self.assertFalse(wikilib.parse_frontmatter((self.wiki/'concepts/a.md').read_text(encoding='utf-8'))[0]['verified'])
         self.assertEqual(self.r.status()['batch'][0]['state'],'applied')
 
     def test_only_selected_approved_topic_is_applied(self):
@@ -138,7 +138,7 @@ class ReviewTests(unittest.TestCase):
         for path in [folder/'after/concepts/a.md.txt',folder/'before/concepts/a.md.txt',folder/'review.md',folder/'card.json']:
             old=path.read_bytes()
             if path.name=='card.json':
-                card=json.loads(old); card['summary']='different'; path.write_text(json.dumps(card))
+                card=json.loads(old); card['summary']='different'; path.write_text(json.dumps(card), encoding='utf-8')
             else: path.write_bytes(old+b'changed')
             with self.assertRaises(ValueError): self.r.apply('batch',['one'])
             path.write_bytes(old)
@@ -189,7 +189,10 @@ class ReviewTests(unittest.TestCase):
     def test_paths_and_symlinks_rejected(self):
         with self.assertRaisesRegex(ValueError,'페이지 상대경로'): self.prepare(files={'../escape.md':page('bad')})
         (self.wiki/'concepts/a.md').unlink()
-        (self.wiki/'concepts/a.md').symlink_to(self.raw)
+        try:
+            (self.wiki/'concepts/a.md').symlink_to(self.raw)
+        except OSError:
+            self.skipTest('Directory permissions do not allow symlinks')
         with self.assertRaisesRegex(ValueError,'심링크'): self.prepare()
 
     def test_missing_citation_and_review_link_fail(self):
@@ -253,7 +256,7 @@ class ReviewTests(unittest.TestCase):
 
     def test_recovery_refuses_overwriting_unrelated_edit(self):
         self.r.root.mkdir()
-        self.r.journal.write_text(json.dumps({'concepts/a.md':{'before':'old','after':'new'}}))
+        self.r.journal.write_text(json.dumps({'concepts/a.md':{'before':'old','after':'new'}}), encoding='utf-8')
         self.put('concepts/a.md',b'third party')
         with self.assertRaisesRegex(ValueError,'다른 변경'): self.r.recover()
         self.put('concepts/a.md',b'new')

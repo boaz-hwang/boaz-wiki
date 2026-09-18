@@ -80,7 +80,7 @@ def main(argv=None):
     parser.add_argument('--require-complete', action='store_true')
     args = parser.parse_args(argv)
     try:
-        result = validate(json.loads(args.path.read_text()))
+        result = validate(json.loads(args.path.read_text(encoding='utf-8')))
     except (OSError, ValueError, TypeError) as error:
         print(json.dumps({'error': str(error)}, ensure_ascii=False))
         return 1

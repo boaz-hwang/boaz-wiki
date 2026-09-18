@@ -12,13 +12,13 @@ class SessionReaderTests(unittest.TestCase):
     def run_reader(self, records, *args, alias=False):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "sample.jsonl"
-            path.write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in records) + "\n")
+            path.write_text("\n".join(json.dumps(r, ensure_ascii=False) for r in records) + "\n", encoding='utf-8')
             env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", WIKI_CLAUDE_SESSIONS_DIR=folder)
             target = "/claude-sessions/sample.jsonl" if alias else str(path)
             return subprocess.run(
                 [sys.executable, str(Path(__file__).with_name("dump_session.py")), target, *args],
                 env=env, capture_output=True, text=True,
-            )
+                encoding='utf-8')
 
     def test_claude_full_text_and_original_range(self):
         body = "근거" * 2000 + "끝"

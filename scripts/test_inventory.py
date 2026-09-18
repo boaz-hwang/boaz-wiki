@@ -79,8 +79,8 @@ class InventoryTests(unittest.TestCase):
             path = Path(root) / 'inventory.json'
             data = record()
             data['sources'][0]['status'] = 'unavailable'
-            path.write_text(json.dumps(data))
+            path.write_text(json.dumps(data), encoding='utf-8')
             self.assertEqual(inventory.main([str(path), '--require-complete']), 2)
             self.assertEqual(inventory.main([str(path)]), 0)
-            path.write_text('{}')
+            path.write_text('{}', encoding='utf-8')
             self.assertEqual(inventory.main([str(path)]), 1)

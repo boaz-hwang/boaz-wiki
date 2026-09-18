@@ -4,6 +4,7 @@ import os
 import re
 import subprocess
 import sys
+from skill_install import install_skill
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -18,7 +19,7 @@ def main():
     WIKI_ROOT.mkdir(parents=True, exist_ok=True)
     for category in ('concepts','entities','sources','overviews','questions','research','reviews'):
         (WIKI_ROOT / category).mkdir(exist_ok=True)
-    for name, text in [('SCHEMA.md', (ROOT / 'SCHEMA.md').read_text()), ('log.md', '# Wiki log\n')]:
+    for name, text in [('SCHEMA.md', (ROOT / 'SCHEMA.md').read_text(encoding='utf-8')), ('log.md', '# Wiki log\n')]:
         p = WIKI_ROOT / name
         if not p.exists(): p.write_text(text, encoding='utf-8')
     if not (WIKI_ROOT / 'index.md').exists():
@@ -27,12 +28,7 @@ def main():
         for skill in sorted((ROOT / 'skills').iterdir()):
             if not (skill / 'SKILL.md').is_file(): continue
             dest = WORKSPACE / provider / 'skills' / skill.name
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            if dest.exists() or dest.is_symlink():
-                if dest.resolve() != skill.resolve():
-                    print(f'Existing skill preserved: {dest}')
-                continue
-            dest.symlink_to(os.path.relpath(skill, dest.parent), target_is_directory=True)
+            install_skill(skill, dest)
     if WORKSPACE != ROOT:
         pointer = f"\n<!-- boaz-wiki -->\nWiki rules: {WIKI_ROOT / 'SCHEMA.md'}. Read the index first.\nToolkit and skills: {ROOT}. Use WIKI_CONFIG={config} with its scripts.\n<!-- /boaz-wiki -->\n"
         for name in ('AGENTS.md', 'CLAUDE.md'):

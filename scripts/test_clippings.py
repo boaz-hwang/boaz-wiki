@@ -32,7 +32,7 @@ class ClippingsTests(unittest.TestCase):
             for name in ['a/same.md', 'b/same.md', 'skip.md'] + [f'{i}.md' for i in range(11)]:
                 file = base / name
                 file.parent.mkdir(parents=True, exist_ok=True)
-                file.write_text('article')
+                file.write_text('article', encoding='utf-8')
             pending = {p.relative_to(base).as_posix() for p in clips.pending()}
             self.assertEqual(len(pending), 12)
             self.assertIn('b/same.md', pending)
@@ -50,7 +50,7 @@ class ClippingsTests(unittest.TestCase):
 
     def test_unreadable_file_propagates(self):
         with tempfile.TemporaryDirectory() as root, patch.object(clips, 'CLIP_DIR', Path(root)):
-            (Path(root) / 'a.md').write_text('article')
+            (Path(root) / 'a.md').write_text('article', encoding='utf-8')
             with patch.object(Path, 'open', side_effect=PermissionError('fixture read denied')):
                 with self.assertRaises(PermissionError):
                     clips.pending()

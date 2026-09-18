@@ -3,6 +3,9 @@ from pathlib import Path
 import os
 import re
 import tomllib
+from platform_io import configure_output
+
+configure_output()
 
 TOOL_ROOT = Path(__file__).resolve().parents[1]
 CONFIG_PATH = Path(os.environ.get('WIKI_CONFIG', TOOL_ROOT / 'wiki.toml')).expanduser().resolve()
