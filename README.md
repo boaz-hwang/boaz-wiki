@@ -19,6 +19,18 @@ Claude Code or Codex reads your docs and AI session records and writes linked Ma
 
 Inspired by [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) and [OpenWiki](https://github.com/langchain-ai/openwiki). It packages a flow developed while running a real work wiki: **source check → change proposal → human decision → apply the approved version**.
 
+## Example
+
+A small wiki built from two fictional returns-policy notes is in [examples/](examples/README.md). These screenshots are local renders of its files.
+
+![A wiki page with frontmatter and line citations](assets/example-page.png)
+
+A question page as proposed after a policy change: frontmatter, an answer split by order date, and a `^[file:line]` citation for each fact.
+
+![A change proposal with judgments and a diff](assets/example-review.png)
+
+The change proposal for that page: each judgment (fact, scope, relationship) with before, proposed, reason, and evidence, followed by the diff you approve or reject. Tool labels in this file are currently in Korean.
+
 ## Getting started
 
 You need Python 3.11 or later, Git, and Claude Code or Codex with access to your local files. No packages beyond Python itself. Runs on macOS, Linux, and Windows PowerShell. Obsidian is optional.
@@ -148,7 +160,7 @@ Write Windows paths in `wiki.toml` with single quotes, like `path = 'C:\Users\me
 
 ## Example and checks
 
-Practice a first build and a policy change with the [fictional returns policy example](examples/README.md) (written in Korean).
+Practice a first build and a policy change with the [fictional returns policy example](examples/README.md). It includes the sources in English and Korean and a sample wiki output with a pending change proposal.
 
 ```bash
 python3 -B -m unittest discover -s scripts -p 'test_*.py'

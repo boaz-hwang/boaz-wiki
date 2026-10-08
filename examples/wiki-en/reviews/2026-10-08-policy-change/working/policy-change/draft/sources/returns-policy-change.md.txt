@@ -1,0 +1,36 @@
+---
+type: source
+title: Returns policy change meeting (from 2026-02-01)
+description: Meeting note that extends the return window to 30 days for orders placed from 2026-02-01 and keeps 14 days for earlier orders.
+tags: [returns, policy, meeting]
+sources:
+  - resource: /documents/policy-change.md
+    id: src-policy-change
+generated: { by: agent/claude-opus-5-5, at: 2026-10-08T00:00:00Z }
+verified: []
+status: draft
+contested: false
+contradictions: []
+supersedes: []
+related: [questions/return-window, sources/returns-policy]
+---
+# Returns policy change meeting (from 2026-02-01)
+
+The original is a short meeting note for a fictional store. It is practice material, not a real policy.^[/documents/policy-change.md:1-5]
+
+## Key facts
+
+- From 2026-02-01, new orders can request a return within 30 days of delivery.^[/documents/policy-change.md:2]
+- Orders placed up to 2026-01-31 keep the existing 14-day policy.^[/documents/policy-change.md:3]
+- The exclusion of made-to-order items from change-of-mind returns stays in place.^[/documents/policy-change.md:4]
+
+## What this source changes
+
+It narrows the 14-day rule in [[sources/returns-policy]] to orders placed up to 2026-01-31 and adds a 30-day rule for orders placed from 2026-02-01. The two policies apply to different order dates, so they are not marked as a contradiction, and the older source is not deprecated because it still governs January orders.
+
+The 30-day window does not apply to every order. The deciding condition is the date the order was placed.
+
+## Links
+
+- [[questions/return-window]]
+- [[sources/returns-policy]]

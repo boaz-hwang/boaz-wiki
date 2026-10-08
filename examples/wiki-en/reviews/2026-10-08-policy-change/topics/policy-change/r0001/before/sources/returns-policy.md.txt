@@ -1,0 +1,37 @@
+---
+type: source
+title: Returns policy (2026-01-01)
+description: The fictional store's returns policy as of 2026-01-01, with a 14-day window and a made-to-order exclusion.
+tags: [returns, policy]
+sources:
+  - resource: /documents/returns.md
+    id: src-returns
+generated: { by: agent/claude-opus-5-5, at: 2026-10-08T00:00:00Z }
+verified: []
+status: draft
+contested: false
+contradictions: []
+supersedes: []
+related: [questions/return-window]
+---
+# Returns policy (2026-01-01)
+
+The original is a short policy note for a fictional store. It is practice material, not a real policy.^[/documents/returns.md:1-4]
+
+## Key facts
+
+- Under the policy dated 2026-01-01, a customer can request a return within 14 days of delivery.^[/documents/returns.md:2]
+- Made-to-order items are excluded from change-of-mind returns.^[/documents/returns.md:3]
+
+## What this source changes
+
+This is the first returns source in the wiki. It sets the baseline answer for [[questions/return-window]]: 14 days from delivery, with the made-to-order exclusion.
+
+## Not stated in the source
+
+- Whether the 14 days count calendar days or business days.
+- Whether made-to-order items can be returned for reasons other than a change of mind (for example, a defect).
+
+## Links
+
+- [[questions/return-window]]

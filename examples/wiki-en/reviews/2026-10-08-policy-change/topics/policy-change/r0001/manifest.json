@@ -1,0 +1,30 @@
+{
+  "files": {
+    "sources/returns-policy-change.md": {
+      "before": null,
+      "after": "8784b3cc5b9de5df97f7f66622b0512dedb1e684a6a41437874f338eb84a54ba"
+    },
+    "questions/return-window.md": {
+      "before": "9e6af4bb99922cb93eb736d555a6bc4b88ccf9ffb5e2b8502d62ca00515d9029",
+      "after": "234844ff644a3a8b6dfc0100ddee2a7056e0a084af0d3fba1a22251a4be6bf22"
+    },
+    "sources/returns-policy.md": {
+      "before": "8f1ae123c58a94c0636db279b8347ddfbd16c40029ede94153c559d3ee4684a9",
+      "after": "6c2db8fae82961ecf4ea4a8a8567141dff1cba0102eb3b932f39f755c04cb2cc"
+    }
+  },
+  "dependencies": {
+    "/documents/policy-change.md": "c9950e966acd431623ef9ca3a1b0a43845b500df5ac992258c59b32b62c279b0",
+    "/documents/returns.md": "e44a073e92879b27c28268d44cda174a3ce793e29b73e3c21ae7fb800c309080",
+    "^[/documents/policy-change.md:1-5]": "c9950e966acd431623ef9ca3a1b0a43845b500df5ac992258c59b32b62c279b0",
+    "^[/documents/policy-change.md:2-3]": "b7e7dda2539a594743877c0402ef484bf336c79c3a74b365844a6c6239ae1fd4",
+    "^[/documents/policy-change.md:2]": "6f72014e89323d5183ad25b7e7b7d9edac5b54dddbe95052845d35816c05924f",
+    "^[/documents/policy-change.md:3]": "30f53c5aa7cfa816cc903e03c200b2fe4440ff1deef35cbd3904710f9e296650",
+    "^[/documents/policy-change.md:4]": "0446761dd062144c0d9a583486417b6138bf1320befc639e7a8fbe4e034a78b9",
+    "^[/documents/returns.md:1-4]": "e44a073e92879b27c28268d44cda174a3ce793e29b73e3c21ae7fb800c309080",
+    "^[/documents/returns.md:2]": "0e9f34aa9b19020cdc4e17c756bd5f4b2c819a3a04879f465da643b4c6c1290c",
+    "^[/documents/returns.md:3]": "8c48ae0f2e2c037167d32404c2e5fc585084fdf1ec00efb115c6aea66409b752"
+  },
+  "revision": "c2ffb4733f4a4e5339eaf846c29bb41b35246eaac3bc92658e03a6d211cde28e",
+  "created": "2026-10-08T09:14:17+00:00"
+}

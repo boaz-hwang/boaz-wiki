@@ -1,0 +1,30 @@
+---
+type: question
+title: How long does a customer have to request a return?
+description: Current answer on the return window by order date and its exceptions, with what is still unknown.
+tags: [returns, policy, faq]
+generated: { by: agent/claude-opus-5-5, at: 2026-10-08T00:00:00Z }
+verified: []
+status: draft
+contested: false
+contradictions: []
+supersedes: []
+related: [sources/returns-policy, sources/returns-policy-change]
+---
+# How long does a customer have to request a return?
+
+## Current answer
+
+It depends on when the order was placed.
+
+| Order placed | Return window | Basis |
+|---|---|---|
+| Up to 2026-01-31 | 14 days from delivery | ^[/documents/returns.md:2] ^[/documents/policy-change.md:3] |
+| From 2026-02-01 | 30 days from delivery | ^[/documents/policy-change.md:2] |
+
+For both periods, made-to-order items cannot be returned for a change of mind.^[/documents/returns.md:3]^[/documents/policy-change.md:4] Basis pages: [[sources/returns-policy]], [[sources/returns-policy-change]].
+
+## Open points
+
+- Neither source says whether the window counts calendar days or business days.
+- Neither source covers returns of made-to-order items for reasons other than a change of mind.

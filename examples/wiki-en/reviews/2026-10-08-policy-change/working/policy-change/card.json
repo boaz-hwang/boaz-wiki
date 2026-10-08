@@ -1,0 +1,36 @@
+{
+  "title": "Return window after the 2026-02-01 policy change",
+  "summary": "Add the policy change meeting as a source and split the return window by order date: 14 days up to 2026-01-31, 30 days from 2026-02-01. The made-to-order exclusion stays.",
+  "files": ["sources/returns-policy-change.md", "questions/return-window.md", "sources/returns-policy.md"],
+  "judgments": [
+    {
+      "kind": "fact",
+      "before": "A return can be requested within 14 days of delivery.",
+      "proposed": "Orders placed from 2026-02-01 can be returned within 30 days of delivery.",
+      "reason": "The meeting note states the new window and its start date.",
+      "evidence": ["^[/documents/policy-change.md:2]"]
+    },
+    {
+      "kind": "scope",
+      "before": "The 14-day rule is stated without a date limit.",
+      "proposed": "The 14-day rule applies only to orders placed up to 2026-01-31. The 30-day rule is not applied to all orders.",
+      "reason": "The meeting note keeps the existing policy for earlier orders. Applying 30 days to every order would overstate the change.",
+      "evidence": ["^[/documents/policy-change.md:3]"]
+    },
+    {
+      "kind": "fact",
+      "before": "Made-to-order items are excluded from change-of-mind returns.",
+      "proposed": "Unchanged for both periods.",
+      "reason": "The meeting note says the exclusion stays in place.",
+      "evidence": ["^[/documents/returns.md:3]", "^[/documents/policy-change.md:4]"]
+    },
+    {
+      "kind": "relationship",
+      "before": "One returns source, no later change recorded.",
+      "proposed": "Link the two sources both ways. Do not mark them as contested and do not deprecate the older source.",
+      "reason": "The two policies cover different order dates, so they are not incompatible claims about the same orders. The older source still governs January orders.",
+      "evidence": ["^[/documents/returns.md:2]", "^[/documents/policy-change.md:2-3]"]
+    }
+  ],
+  "dependencies": ["/documents/returns.md", "/documents/policy-change.md"]
+}

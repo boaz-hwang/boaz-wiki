@@ -8,6 +8,18 @@ Claude Code나 Codex가 자료를 읽고 연결된 Markdown을 작성합니다. 
 
 [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format)과 [OpenWiki](https://github.com/langchain-ai/openwiki)에서 영감을 받았습니다. 실제 업무 위키를 운영하며 발전시킨 **원천 대조 → 변경안 → 사람 판단 → 승인 버전 반영** 흐름을 담았습니다.
 
+## 예제
+
+가상 반품 정책 메모 두 건으로 만든 작은 위키가 [examples/](examples/README.ko.md)에 있습니다. 아래 화면은 그 파일을 로컬에서 렌더링한 것입니다(영문 예제).
+
+![frontmatter와 줄 인용이 있는 위키 페이지](assets/example-page.png)
+
+정책 변경 후 제안된 질문 페이지입니다. frontmatter, 주문 접수일별로 나눈 답, 사실마다 붙은 `^[파일:줄]` 인용이 보입니다.
+
+![판단 항목과 diff가 있는 변경안](assets/example-review.png)
+
+같은 페이지의 변경안입니다. 판단 항목(fact·scope·relationship)마다 이전·제안·이유·근거가 있고, 그 아래에 승인 여부를 정할 diff가 있습니다.
+
 ## 시작하기
 
 Python 3.11 이상, Git, 로컬 파일을 읽을 수 있는 Claude Code 또는 Codex가 필요합니다. Python 외 별도 패키지는 필요 없습니다. macOS·Linux·Windows PowerShell을 지원합니다. Obsidian은 선택입니다.
@@ -132,7 +144,7 @@ python -B scripts/setup.py
 
 ## 예제와 검증
 
-[가상 반품 정책 예제](examples/README.md)로 첫 생성과 정책 변경을 연습할 수 있습니다.
+[가상 반품 정책 예제](examples/README.ko.md)로 첫 생성과 정책 변경을 연습할 수 있습니다.
 
 ```bash
 python3 -B -m unittest discover -s scripts -p 'test_*.py'

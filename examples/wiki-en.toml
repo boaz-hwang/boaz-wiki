@@ -1,0 +1,12 @@
+# Configuration for the English example wiki in examples/wiki-en.
+# Use it with: WIKI_CONFIG=examples/wiki-en.toml python3 -B scripts/lint.py
+[wiki]
+title = "Fictional Store Wiki"
+path = "wiki-en"
+reviewer = "human:owner"
+language = "en"
+
+[sources.documents]
+kind = "documents"
+path = "raw-en"
+include = ["**/*.md"]
