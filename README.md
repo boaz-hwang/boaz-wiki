@@ -15,7 +15,7 @@
 
 ---
 
-Claude Code or Codex reads your docs and AI session records and writes linked Markdown. Every claim cites its source. You judge the meaning and scope of each change proposal. Python tools check citations, links, review versions, and the apply step. You can read the finished wiki in Obsidian.
+Claude Code or Codex reads your docs and AI session records and writes linked Markdown. Each fact is written with a `^[file:line]` citation, and the tools check that cited lines exist. You judge the meaning and scope of each change proposal. Python tools check citations, links, review versions, and the apply step. You can read the finished wiki in Obsidian.
 
 Inspired by [Open Knowledge Format](https://github.com/GoogleCloudPlatform/open-knowledge-format) and [OpenWiki](https://github.com/langchain-ai/openwiki). It packages a flow developed while running a real work wiki: **source check → change proposal → human decision → apply the approved version**.
 
